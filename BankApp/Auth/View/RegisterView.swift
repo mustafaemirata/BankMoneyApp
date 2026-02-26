@@ -7,12 +7,84 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct RegisterView: View {
+    @State private var fullName = ""
+    @State private var email = ""
+    @State private var birthDate = Date()
+    @State private var password = ""
+    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            AppBackground()
+            
+            VStack(spacing: 20) {
+               Header()
+                
+                Spacer()
+                
+                VStack(spacing: 10) {
+                    Text("Yeni Hesap Oluştur")
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.white)
+               
+                }
+                .padding(.bottom, 20)
+
+                VStack(spacing: 15) {
+                    InputField(icon: "person.fill", placeholder: "Ad Soyad", text: $fullName)
+                    
+                    InputField(icon: "envelope.fill", placeholder: "E-posta", text: $email, keyboardType: .emailAddress)
+                    
+                    HStack {
+                        Image(systemName: "calendar")
+                            .foregroundColor(.blue)
+                            .frame(width: 30)
+                        
+                        DatePicker("Doğum Tarihi", selection: $birthDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .colorInvert()
+                            .colorMultiply(.white)
+                        
+                        Spacer()
+                        
+                        Text("Doğum Tarihi")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    .background(Color.white.opacity(0.08))
+                    .cornerRadius(12)
+                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                    
+                    InputField(icon: "key.fill", placeholder: "Şifre ()", text: $password, isSecure: true, keyboardType: .numberPad)
+                }
+                .padding(.horizontal, 30)
+
+                Button(action: {  })
+                {
+                    ButtonStyle(text: "Hesap Oluştur")
+                }
+                .padding(.horizontal, 30)
+                .padding(.top, 10)
+
+                NavigationLink(destination: RegisterView()) {
+                    HStack {
+                        Text("Hesabınız var mı?")
+                            .foregroundColor(.white.opacity(0.7))
+                        Text("Giriş yapın!")
+                            .foregroundColor(.blue)
+                            .bold()
+                    }
+                }
+
+                Spacer()
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    LoginView()
+    RegisterView()
 }

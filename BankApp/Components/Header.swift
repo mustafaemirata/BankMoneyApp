@@ -9,7 +9,10 @@ import SwiftUI
 
 struct Header: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Bank Money App")
+            .font(.system(size: 32, weight: .bold, design: .monospaced))
+            .foregroundColor(.white.opacity(0.8))
+            .padding(.top, 20)
     }
 }
 

@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct ButtonStyle: View {
+    @State var text:String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text(text)
+            .font(.headline)
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .frame(height: 55)
+            .background(Color.blue)
+            .cornerRadius(12)
     }
 }
 
 #Preview {
-    ButtonStyle()
+    ButtonStyle(text: "default")
 }
