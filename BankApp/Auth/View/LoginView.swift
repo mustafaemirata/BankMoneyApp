@@ -6,9 +6,13 @@
 //
 import SwiftUI
 
+import SwiftUI
+
 struct LoginView: View {
     @State private var customerID = ""
     @State private var password = ""
+    
+    @EnvironmentObject var authModel: AuthViewModel
 
     var body: some View {
         NavigationStack {
@@ -26,23 +30,24 @@ struct LoginView: View {
                             .frame(width: 80, height: 80)
                         
                         VStack(spacing: 8) {
-                         
                             Text("Müşteri bilgilerinizle giriş yapın")
                                 .font(.largeTitle.bold())
-
                                 .foregroundColor(.white.opacity(0.6))
+                                .multilineTextAlignment(.center)
                         }
                     }
                     .padding(.bottom, 20)
 
                     VStack(spacing: 15) {
-                        InputField(icon: "person.fill", placeholder: "Müşteri Kimlik No", text: $customerID, keyboardType: .numberPad)
+                        InputField(icon: "person.fill", placeholder: "Müşteri Kimlik No", text: $customerID)
                         InputField(icon: "key.fill", placeholder: "Şifre", text: $password, isSecure: true, keyboardType: .numberPad)
                     }
                     .padding(.horizontal, 30)
 
                     VStack(spacing: 20) {
-                        Button(action: {  }) {
+                        Button(action: {
+                            authModel.login(email: customerID, password: password)
+                        }) {
                             ButtonStyle(text: "Giriş Yap")
                         }
 
@@ -60,12 +65,28 @@ struct LoginView: View {
 
                     Spacer()
                 }
+                .blur(radius: authModel.isLoading ? 3 : 0)
+                .disabled(authModel.isLoading)
+                
+                if authModel.isLoading {
+                    ZStack {
+                        Color.black.opacity(0.5)
+                            .edgesIgnoringSafeArea(.all)
+                        
+                        VStack(spacing: 15) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.5)
+                            Text("Giriş Yapılıyor...")
+                                .foregroundColor(.white)
+                                .font(.headline)
+                        }
+                    }
+                }
             }
         }
     }
 }
-
-
 
 #Preview {
     LoginView()
